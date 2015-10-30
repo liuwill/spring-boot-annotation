@@ -1,0 +1,54 @@
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd" >
+<suite name="TestAll">
+    <test name="TestUnit" enabled="true">
+        <groups>
+            <run>
+                <include name="rest" />
+                <include name="data" />
+            </run>
+        </groups>
+
+        <classes>
+            <class name="com.liuwill.testng.DemoControllerTest" />
+        </classes>
+    </test>
+
+    <test name="TestData" enabled="true">
+        <groups>
+            <run>
+                <include name="rest" />
+                <include name="data" />
+                <exclude name="redis"/>
+            </run>
+        </groups>
+
+        <classes>
+            <class name="com.liuwill.testng.data.DataDaoTest" />
+            <class name="com.liuwill.testng.demo.JRedisTest" />
+            <class name="com.liuwill.testng.data.CommonTransactionTest" />
+        </classes>
+    </test>
+
+    <test name="TestIntegr" enabled="true">
+        <groups>
+            <run>
+                <include name="rest" />
+            </run>
+        </groups>
+
+        <classes>
+            <class name="com.liuwill.testng.IntegrDemoControllerTest" />
+        </classes>
+    </test>
+
+    <test name="UtilTest" enabled="false">
+        <groups>
+            <run>
+                <include name="encrypt" />
+            </run>
+        </groups>
+        <classes>
+            <!--<class name="com.liuwill.testng.demo.EncryptTest" />-->
+        </classes>
+    </test>
+</suite>

@@ -1,0 +1,74 @@
+buildscript {
+    repositories {
+        mavenLocal()
+        mavenCentral()
+    }
+    dependencies {
+        classpath('org.freemarker:freemarker:2.3.23')
+        classpath("org.springframework.boot:spring-boot-gradle-plugin:1.2.7.RELEASE")
+    }
+}
+
+apply plugin: 'java'
+apply plugin: 'eclipse'
+apply plugin: 'idea'
+apply plugin: 'spring-boot'
+
+sourceCompatibility = 1.7
+version = '1.0'
+
+repositories {
+    mavenLocal()
+    mavenCentral()
+}
+
+dependencies {
+    // tag::jetty[]
+    compile("org.springframework.boot:spring-boot-starter-web") {
+        exclude module: "spring-boot-starter-tomcat"
+    }
+    compile("org.springframework.boot:spring-boot-starter-jetty")
+    // end::jetty[]
+    // tag::actuator[]
+    compile("org.springframework.boot:spring-boot-starter-actuator")
+    compile("org.springframework.boot:spring-boot-starter-aop")
+    compile("org.springframework:spring-context-support")
+    //compile("org.springframework.boot:spring-boot-starter-data-jpa")
+    compile("org.springframework:spring-tx")
+    compile "org.springframework:spring-jdbc"
+    compile 'org.springframework.data:spring-data-redis:1.6.0.RELEASE'
+    // end::actuator[]
+    compile 'redis.clients:jedis:2.7.3'
+    compile('org.freemarker:freemarker:2.3.23')
+    compile 'mysql:mysql-connector-java:5.1.36'
+    compile 'com.h2database:h2:1.4.189'
+    compile 'org.apache.commons:commons-dbcp2:2.1'
+    compile 'com.alibaba:fastjson:1.2.6'
+
+    testCompile group: 'org.testng', name: 'testng', version: '6.9.8'
+    testCompile 'com.jayway.jsonpath:json-path:2.0.0'
+    testCompile("org.springframework.boot:spring-boot-starter-test")
+    testCompile "org.springframework:spring-test"
+}
+
+test {
+    useTestNG{
+        suites 'src/test/resources/testng.xml'
+        useDefaultListeners = true
+    }
+}
+
+task createJavaProject << {
+    sourceSets*.java.srcDirs*.each { it.mkdirs() }
+    sourceSets*.resources.srcDirs*.each { it.mkdirs()}
+}
+
+/*task wrapper(type: Wrapper) {
+    gradleVersion = '2.3'
+}*/
+
+/*
+task createWebProject(dependsOn: 'createJavaProject') << {
+    def webAppDir = file("$webAppDirName")
+    webAppDir.mkdirs()
+}*/
